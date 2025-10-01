@@ -1,0 +1,36 @@
+//Develop a recursive and non-recursive function FACT(num) to find the factorial of a number, n!, defined by FACT(n) = 1, if n = 0. Otherwise, FACT(n) = n * FACT(n-1). Using this function, write a C program to compute the binomial coefficient. Tabulate the results for different values of n and r with suitable messages.
+#include <stdio.h>
+long long fact_recur(int num) {
+    if (num == 0)
+        return 1;
+    return num * fact_recur(num - 1);
+}
+long long fact_non_recur(int num) {
+    long long result = 1;
+    for (int i = 1; i <= num; i++)
+        result *= i;
+    return result;
+}
+long long binomial_coeff(int n, int r) {
+    return fact_non_recur(n) / (fact_non_recur(r) * fact_non_recur(n - r));
+}
+int main() {
+    int n, r;
+    printf("Enter value of n: ");
+    scanf("%d", &n);
+    printf("Enter value of r: ");
+    scanf("%d", &r);
+    if (r > n || n < 0 || r < 0) {
+        printf("Invalid input: r should be <= n and both non-negative.\n");
+        return 1;
+    }
+    printf("\nFactorial of %d (recursive) = %lld\n", n, fact_recur(n));
+    printf("Factorial of %d (non-recursive) = %lld\n", n, fact_non_recur(n));
+    printf("\nBinomial Coefficient C(%d, %d) = %lld\n", n, r, binomial_coeff(n, r));
+    printf("Binomial Coefficients for n = %d:\n", n);
+    printf(" r\tC(n, r)\n");
+    for (int i = 0; i <= n; i++) {
+        printf(" %d\t%lld\n", i, binomial_coeff(n, i));
+    }
+    return 0;
+}
